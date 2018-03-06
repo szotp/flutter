@@ -5,6 +5,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter_tools/src/desktop.dart';
+
 import 'android/android_device.dart';
 import 'application_package.dart';
 import 'base/common.dart';
@@ -28,6 +30,7 @@ class DeviceManager {
     _deviceDiscoverers.add(new AndroidDevices());
     _deviceDiscoverers.add(new IOSDevices());
     _deviceDiscoverers.add(new IOSSimulators());
+    _deviceDiscoverers.add(new DesktopDevices());
   }
 
   final List<DeviceDiscovery> _deviceDiscoverers = <DeviceDiscovery>[];
