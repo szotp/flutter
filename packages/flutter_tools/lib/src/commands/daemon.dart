@@ -565,7 +565,9 @@ class DeviceDomain extends Domain {
     addDeviceDiscoverer(new AndroidDevices());
     addDeviceDiscoverer(new IOSDevices());
     addDeviceDiscoverer(new IOSSimulators());
-    addDeviceDiscoverer(new DesktopDevices());
+
+    if (config.getValue('desktop-device') == 'enabled')
+      addDeviceDiscoverer(new DesktopDevices());
   }
 
   void addDeviceDiscoverer(PollingDeviceDiscovery discoverer) {

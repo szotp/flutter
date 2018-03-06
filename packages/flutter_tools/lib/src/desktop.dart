@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter_tools/src/base/io.dart';
 import 'package:flutter_tools/src/build_info.dart';
 import 'package:flutter_tools/src/application_package.dart';
 import 'package:flutter_tools/src/device.dart';
+import 'package:flutter_tools/src/globals.dart';
 
 class FakeLogReader extends DeviceLogReader {
   // TODO: implement logLines
@@ -62,12 +65,31 @@ class DesktopDevice extends Device {
 
   // TODO: implement sdkNameAndVersion
   @override
-  Future<String> get sdkNameAndVersion async => 'iOS 11.2 (simulator)';
+  Future<String> get sdkNameAndVersion async => 'desktop';
 
   @override
   Future<LaunchResult> startApp(ApplicationPackage package, {String mainPath, String route, DebuggingOptions debuggingOptions, Map<String, dynamic> platformArgs, bool prebuiltApplication: false, bool applicationNeedsRebuild: false, bool usesTerminalUi: true, bool ipv6: false}) async {
-    final Uri uri = Uri.parse('http://127.0.0.1:50300/');
-    return new LaunchResult.succeeded(observatoryUri: uri);
+    final String launchPath = mainPath.replaceAll('/lib/main.dart', '/desktop/launch.dart');
+    printStatus('Executing $launchPath');
+    final String dartPath = Platform.resolvedExecutable;
+
+    try {
+      final ProcessResult result = await Process.run(dartPath, <String>[launchPath]);
+      final String out = result.stdout;
+      
+      final Uri uri = Uri.parse(out.replaceAll('\n', ''));
+
+      if (uri.port == 0 || result.exitCode != 0) {
+        printStatus('Invalid uri ${result.stdout} ${result.stderr}');
+        return new LaunchResult.failed();
+      } else {
+        printStatus('Received Uri $uri');
+        return new LaunchResult.succeeded(observatoryUri: uri);
+      }    
+    } catch(exception) {
+      printStatus('Failed to execute $exception');
+      return new LaunchResult.failed(); 
+    }
   }
 
   @override

@@ -30,7 +30,9 @@ class DeviceManager {
     _deviceDiscoverers.add(new AndroidDevices());
     _deviceDiscoverers.add(new IOSDevices());
     _deviceDiscoverers.add(new IOSSimulators());
-    _deviceDiscoverers.add(new DesktopDevices());
+
+    if (config.getValue('desktop-device') == 'enabled')
+      _deviceDiscoverers.add(new DesktopDevices());
   }
 
   final List<DeviceDiscovery> _deviceDiscoverers = <DeviceDiscovery>[];
