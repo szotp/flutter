@@ -137,6 +137,7 @@ enum TargetPlatform {
   linux_x64,
   windows_x64,
   fuchsia,
+  custom
 }
 
 String getNameForTargetPlatform(TargetPlatform platform) {
@@ -159,6 +160,8 @@ String getNameForTargetPlatform(TargetPlatform platform) {
       return 'windows-x64';
     case TargetPlatform.fuchsia:
       return 'fuchsia';
+    case TargetPlatform.custom:
+      return 'custom';
   }
   assert(false);
   return null;
