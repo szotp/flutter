@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_tools/src/desktop.dart';
+import 'package:flutter_tools/src/custom_device.dart';
 import 'package:meta/meta.dart';
 
 import '../android/android_device.dart';
@@ -569,8 +569,8 @@ class DeviceDomain extends Domain {
     addDeviceDiscoverer(new IOSDevices());
     addDeviceDiscoverer(new IOSSimulators());
 
-    if (config.getValue('desktop-device') == 'enabled')
-      addDeviceDiscoverer(new DesktopDevices());
+    if (config.getValue('custom-device') == 'enabled')
+      addDeviceDiscoverer(new CustomDeviceDiscovery());
   }
 
   void addDeviceDiscoverer(PollingDeviceDiscovery discoverer) {

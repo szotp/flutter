@@ -27,7 +27,7 @@ class ConfigCommand extends FlutterCommand {
       hide: !verboseHelp,
       help: 'Print config values as json.');
 
-    argParser.addFlag('desktop-device', 
+    argParser.addFlag('custom-device', 
       hide: !verboseHelp,
       negatable: true, 
       help: 'Enable or disable desktop device (experimental)');
@@ -89,10 +89,10 @@ class ConfigCommand extends FlutterCommand {
     if (argResults.wasParsed('clear-ios-signing-cert'))
       _updateConfig('ios-signing-cert', '');
 
-    if (argResults.wasParsed('desktop-device')) {
-      final bool boolValue = argResults['desktop-device'];
+    if (argResults.wasParsed('custom-device')) {
+      final bool boolValue = argResults['custom-device'];
       final String keyValue = boolValue ? 'enabled' : 'disabled';
-      _updateConfig('desktop-device', keyValue);
+      _updateConfig('custom-device', keyValue);
       printStatus('Desktop device $keyValue.');
     }
 

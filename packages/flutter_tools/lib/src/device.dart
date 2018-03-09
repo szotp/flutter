@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:flutter_tools/src/desktop.dart';
+import 'package:flutter_tools/src/custom_device.dart';
 
 import 'android/android_device.dart';
 import 'application_package.dart';
@@ -31,8 +31,8 @@ class DeviceManager {
     _deviceDiscoverers.add(new IOSDevices());
     _deviceDiscoverers.add(new IOSSimulators());
 
-    if (config.getValue('desktop-device') == 'enabled')
-      _deviceDiscoverers.add(new DesktopDevices());
+    if (config.getValue('custom-device') == 'enabled')
+      _deviceDiscoverers.add(new CustomDeviceDiscovery());
   }
 
   final List<DeviceDiscovery> _deviceDiscoverers = <DeviceDiscovery>[];

@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:flutter_tools/src/custom_device.dart';
 import 'package:meta/meta.dart' show required;
 import 'package:xml/xml.dart' as xml;
 
@@ -273,6 +274,8 @@ Future<ApplicationPackage> getApplicationPackageForPlatform(TargetPlatform platf
       return applicationBinary == null
           ? new IOSApp.fromCurrentDirectory()
           : new IOSApp.fromIpa(applicationBinary);
+    case TargetPlatform.custom:
+      return CustomDevicePackage.fromCurrentDirectory();
     case TargetPlatform.darwin_x64:
     case TargetPlatform.linux_x64:
     case TargetPlatform.windows_x64:
@@ -304,6 +307,7 @@ class ApplicationPackageStore {
       case TargetPlatform.linux_x64:
       case TargetPlatform.windows_x64:
       case TargetPlatform.fuchsia:
+      case TargetPlatform.custom:
         return null;
     }
     return null;
